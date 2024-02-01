@@ -1,5 +1,6 @@
 package com.kozh.springcourse.controller;
 
+import com.kozh.springcourse.dao.PersonDAO;
 import com.kozh.springcourse.models.Person;
 import com.kozh.springcourse.servieces.ItemService;
 import com.kozh.springcourse.servieces.PeopleService;
@@ -17,21 +18,24 @@ public class PeopleController {
 
     private final PeopleService peopleService;
     private final ItemService itemService;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public PeopleController(PeopleService peopleService, ItemService itemService) {
+    public PeopleController(PeopleService peopleService, ItemService itemService, PersonDAO personDAO) {
         this.peopleService = peopleService;
         this.itemService = itemService;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("people", peopleService.findAll());
-
-        itemService.findByItemName("Airpods");
-        itemService.findByOwner(peopleService.findAll().get(1));
-
-        peopleService.test();
+        personDAO.testNPlus1();
+//        model.addAttribute("people", peopleService.findAll());
+//
+//        itemService.findByItemName("Airpods");
+//        itemService.findByOwner(peopleService.findAll().get(1));
+//
+//        peopleService.test();
 
         return "people/index";
     }
